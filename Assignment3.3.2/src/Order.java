@@ -1,9 +1,6 @@
-import java.time.*;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -43,7 +39,60 @@ public class Order{
 
     public Order(){}
 
-    
+    public Order(Date date, String customer_name){
+        this.date = date;
+        this.customer_name = customer_name;
+    }
+
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+    public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+    public String getCustomerName() {
+		return customer_name;
+	}
+
+	public void setCustomerName(String customer_name) {
+		this.customer_name = customer_name;
+	}
+
+    public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+
+    public void addProduct(Product theProduct) {
+		
+		if (products == null) {
+			products = new ArrayList<>();
+		}
+		
+	    if (!products.contains(theProduct)) {
+	        products.add(theProduct);
+	        theProduct.addOrder(this); // Mutual link only if not already added
+	    }		
+		
+	}	
+
+    @Override
+	public String toString() {
+		return "Order [id=" + id + ", date=" + date + ", customer name=" + customer_name + "]";
+	}
 
 
 }

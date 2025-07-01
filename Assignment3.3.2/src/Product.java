@@ -1,19 +1,11 @@
-import java.time.*;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -34,6 +26,51 @@ public class Product{
 
     public Product(){}
 
+    public Product(String name){
+        this.name = name;
+    }
+
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+    public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
+    public void addOrder(Order theOrder) {
+		
+		if (orders == null) {
+			orders = new ArrayList<>();
+		}
+		
+	    if (!orders.contains(theOrder)) {
+	    	orders.add(theOrder);
+	    	theOrder.addProduct(this); // Mutual link only if not already added
+	    }		
+		
+	}
+
+    @Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + "]";
+	}
     
 
 
